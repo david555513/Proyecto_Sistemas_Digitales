@@ -1,0 +1,38 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.STD_LOGIC_UNSIGNED.ALL; 
+
+
+entity registro is
+    Port ( reg_in_X : in STD_LOGIC_VECTOR (7 downto 0);
+           reg_in_Y : in STD_LOGIC_VECTOR (7 downto 0);
+           enable_reg_X : in STD_LOGIC;
+           clk : in STD_LOGIC;
+           clr : in STD_LOGIC;
+           enable_reg_Y : in STD_LOGIC;
+           out_reg_X : out STD_LOGIC_VECTOR (7 downto 0);
+           out_reg_Y : out STD_LOGIC_VECTOR (7 downto 0));
+end registro;
+
+architecture Behavioral of registro is
+
+begin
+
+reg_1: process (reg_in_X,enable_reg_X,clr)
+        begin
+          if(enable_reg_X = '1'and clr = '0') then
+                    out_reg_X <= reg_in_X;  
+          else 
+                    out_reg_X <= "00000000";
+          end if;        
+end process reg_1;
+
+reg_2: process (reg_in_Y,enable_reg_Y,clr)
+        begin
+          if(enable_reg_Y = '1'and clr = '0') then
+                    out_reg_Y <= reg_in_Y;  
+          else 
+                    out_reg_Y <= "00000000";
+          end if;        
+end process reg_2;
+end Behavioral;
