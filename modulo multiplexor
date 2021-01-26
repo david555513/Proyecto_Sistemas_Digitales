@@ -1,1 +1,33 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.STD_LOGIC_UNSIGNED.ALL; 
 
+
+entity multiplexor is
+    Port ( X_in : in STD_LOGIC_VECTOR (7 downto 0);
+           Y_in : in STD_LOGIC_VECTOR (7 downto 0);
+           mux_sel_X : in STD_LOGIC;
+           mux_sel_Y : in STD_LOGIC;
+           mux_out_Y : out STD_LOGIC_VECTOR (7 downto 0);
+           mux_out_X : out STD_LOGIC_VECTOR (7 downto 0));
+end multiplexor;
+
+architecture Behavioral of multiplexor is
+
+begin
+    mux_1: process (X_in,mux_sel_X)
+        begin
+            case mux_sel_X is
+                when '0' => mux_out_X <= "00000000";
+                when '1' => mux_out_X <= X_in;
+            end case;
+            end process mux_1;
+mux_2: process (Y_in,mux_sel_Y)
+                    begin
+                        case mux_sel_Y is
+                            when '0' => mux_out_Y <= "00000000";
+                            when '1' => mux_out_Y <= Y_in;
+                        end case;
+                        end process mux_2;
+    
+end Behavioral;
