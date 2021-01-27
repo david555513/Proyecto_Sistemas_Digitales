@@ -1,0 +1,39 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.STD_LOGIC_UNSIGNED.ALL;
+
+entity unidad_control is
+    Port ( clr : in STD_LOGIC;
+           clk : in STD_LOGIC;
+           go : in STD_LOGIC;
+           done : out STD_LOGIC;
+           X_sel : out STD_LOGIC;
+           Y_sel : out STD_LOGIC;
+           X_ld : out STD_LOGIC;
+           Y_ld : out STD_LOGIC);
+end unidad_control;
+
+architecture Behavioral of unidad_control is
+        type	estado is (INICIO,MULTIPLEXOR,REGISTRO,COMPARAR);
+        signal est_presente, prox_est :	estado; 
+begin
+estados: process (est_presente)
+begin
+    case est_presente is
+        when INICIO => prox_est <= MULTIPLEXOR; X_sel <= '0'; Y_sel <= '0'; X_ld <= '0'; Y_ld <= '0'; done <= '0';
+        when MULTIPLEXOR => prox_est <= REGISTRO; X_sel <= '1'; Y_sel <= '1'; X_ld <= '0'; Y_ld <= '0'; done <= '0';
+        when REGISTRO => prox_est <= COMPARAR; X_sel <= '0'; Y_sel <= '0'; X_ld <= '1'; Y_ld <= '1'; done <= '0';
+        when COMPARAR => prox_est <= INICIO; X_sel <= '0'; Y_sel <= '0'; X_ld <= '0'; Y_ld <= '0'; done <= '1';
+    end case;
+end process estados;
+
+reloj: process (clk, clr)
+
+begin
+        if (clr = '0') then
+            est_presente <= INICIO;
+        elsif (clk'event and clk = '1') then 
+            est_presente <= prox_est; 
+        end if; 
+end process reloj;
+end Behavioral;
