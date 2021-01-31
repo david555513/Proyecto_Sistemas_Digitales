@@ -1,3 +1,6 @@
+
+----------------------------------------------------------------------------------
+
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.STD_LOGIC_UNSIGNED.ALL;
@@ -13,16 +16,19 @@ architecture Behavioral of comparador is
 
 begin
 
-comparador: process (comp_in_X,comp_in_Y)
-begin
-    while comp_in_X /= comp_in_Y  loop
-       if(comp_in_X > comp_in_Y) then
-               comp_in_X <= comp_in_X - comp_in_Y ;
-       elsif (comp_in_X < comp_in_Y) then
-            comp_in_Y <= comp_in_Y - comp_in_X ;
-   end if;
-   end loop;
-   comp_out <= comp_in_X; 
-
-end process comparador;
-end Behavioral;
+     process is 
+            variable comp_in_X: std_logic_vector(7 downto 0);
+            variable comp_in_Y: std_logic_vector(7 downto 0); 
+            variable comp_out: std_logic_vector(7 downto 0);  
+    begin
+        while comp_in_X /= comp_in_Y loop
+            if comp_in_X > comp_in_Y then 
+                comp_in_X := (comp_in_X - comp_in_Y);
+             elsif comp_in_X > comp_in_Y then 
+                comp_in_Y := (comp_in_Y - comp_in_X);
+            end if;
+        end loop;
+        comp_out := comp_in_X;
+    
+    end process;
+end architecture;
